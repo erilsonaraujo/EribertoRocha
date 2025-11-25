@@ -219,7 +219,8 @@ h3 {
 /* Hero Section - Revolutionary Design */
 .hero {
     background: linear-gradient(135deg, #0F1F3A 0%, #1E3A5F 50%, #2C5282 100%);
-    padding: 12rem 0 8rem;
+    padding: 8rem 0 4rem;
+    /* Reduced padding to fit above fold */
     position: relative;
     min-height: 100vh;
     display: flex;
@@ -235,50 +236,26 @@ h3 {
     width: 100%;
     height: 100%;
     background:
-        radial-gradient(circle at 20% 50%, rgba(212, 175, 55, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 80% 80%, rgba(139, 90, 60, 0.1) 0%, transparent 50%);
+        radial-gradient(circle at 20% 50%, rgba(212, 175, 55, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(139, 90, 60, 0.05) 0%, transparent 50%);
     z-index: 1;
 }
 
-.hero::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image:
-        linear-gradient(30deg, rgba(255, 255, 255, 0.03) 12%, transparent 12.5%, transparent 87%, rgba(255, 255, 255, 0.03) 87.5%, rgba(255, 255, 255, 0.03)),
-        linear-gradient(150deg, rgba(255, 255, 255, 0.03) 12%, transparent 12.5%, transparent 87%, rgba(255, 255, 255, 0.03) 87.5%, rgba(255, 255, 255, 0.03)),
-        linear-gradient(30deg, rgba(255, 255, 255, 0.03) 12%, transparent 12.5%, transparent 87%, rgba(255, 255, 255, 0.03) 87.5%, rgba(255, 255, 255, 0.03)),
-        linear-gradient(150deg, rgba(255, 255, 255, 0.03) 12%, transparent 12.5%, transparent 87%, rgba(255, 255, 255, 0.03) 87.5%, rgba(255, 255, 255, 0.03));
-    background-size: 80px 140px;
-    background-position: 0 0, 0 0, 40px 70px, 40px 70px;
-    z-index: 1;
-    animation: patternMove 20s linear infinite;
-}
+/* Removed pattern animation (.hero::after) as requested */
 
-@keyframes patternMove {
-    0% {
-        background-position: 0 0, 0 0, 40px 70px, 40px 70px;
-    }
-
-    100% {
-        background-position: 80px 140px, 80px 140px, 120px 210px, 120px 210px;
-    }
-}
 
 .hero .container {
     position: relative;
     z-index: 2;
+    width: 100%;
 }
 
 .hero-content {
     display: grid;
-    grid-template-columns: 1.3fr 1fr;
-    gap: 5rem;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 4rem;
     align-items: center;
-    margin-bottom: 3rem;
+    margin-bottom: 2rem;
 }
 
 .hero-text {
@@ -286,9 +263,10 @@ h3 {
 }
 
 .hero-title {
-    font-size: clamp(2.8rem, 5vw, 4.5rem);
+    font-size: clamp(2.5rem, 4vw, 3.8rem);
+    /* Slightly smaller to fit */
     color: white;
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
     margin-top: 0;
     line-height: 1.15;
     font-weight: 800;
@@ -301,25 +279,25 @@ h3 {
 }
 
 .hero-subtitle {
-    font-size: clamp(1.4rem, 2.8vw, 2rem);
+    font-size: clamp(1.2rem, 2.5vw, 1.6rem);
     color: rgba(255, 255, 255, 0.95);
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
     font-weight: 600;
     line-height: 1.4;
 }
 
 .hero-description {
-    font-size: 1.15rem;
+    font-size: 1.1rem;
     color: rgba(255, 255, 255, 0.85);
-    margin-bottom: 2.5rem;
-    line-height: 1.8;
-    max-width: 90%;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+    max-width: 95%;
 }
 
 .hero-highlights {
     display: flex;
-    gap: 1.5rem;
-    margin-bottom: 2.5rem;
+    gap: 1rem;
+    margin-bottom: 2rem;
     flex-wrap: wrap;
 }
 
@@ -327,36 +305,37 @@ h3 {
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(20px);
-    padding: 1rem 1.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    padding: 0.8rem 1.2rem;
     border-radius: var(--radius-full);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.15);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
     transition: all var(--transition-base);
 }
 
 .hero-highlights .highlight:hover {
-    background: rgba(255, 255, 255, 0.25);
-    transform: translateY(-3px);
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
 }
 
 .hero-highlights .highlight i {
     color: var(--secondary-gold);
-    font-size: 1.4rem;
+    font-size: 1.2rem;
     filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
 }
 
 .hero-highlights .highlight span {
     color: white;
-    font-weight: 600;
-    font-size: 1rem;
+    font-weight: 500;
+    font-size: 0.9rem;
 }
 
 .hero-image {
     position: relative;
-    height: 500px;
+    height: 400px;
+    /* Reduced height */
 }
 
 .hero-image img {
@@ -365,7 +344,7 @@ h3 {
     object-fit: cover;
     border-radius: var(--radius-xl);
     box-shadow:
-        0 25px 50px rgba(0, 0, 0, 0.3),
+        0 20px 40px rgba(0, 0, 0, 0.3),
         0 0 0 1px rgba(255, 255, 255, 0.1);
     transition: transform var(--transition-slow);
     position: relative;
@@ -399,18 +378,19 @@ h3 {
 .cta-button {
     display: inline-flex;
     align-items: center;
-    gap: 12px;
-    background: linear-gradient(135deg, #25d366, #128c7e);
+    gap: 0.8rem;
+    background: var(--gradient-primary);
     color: white;
     text-decoration: none;
-    padding: 18px 36px;
-    border-radius: 50px;
+    padding: 1rem 2rem;
+    border-radius: var(--radius-full);
     font-weight: 600;
     font-size: 1.1rem;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: var(--shadow-medium);
     position: relative;
     overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .cta-button::before {
@@ -431,6 +411,7 @@ h3 {
 .cta-button:hover {
     transform: translateY(-3px) scale(1.05);
     box-shadow: var(--shadow-heavy);
+    filter: brightness(1.1);
 }
 
 .cta-button i {
@@ -714,6 +695,7 @@ section {
     transform: scaleX(0);
     transform-origin: left;
     transition: transform var(--transition-slow);
+    z-index: 3;
 }
 
 .service-card:hover::before {
@@ -800,6 +782,13 @@ section {
     position: relative;
     z-index: 2;
     transition: all var(--transition-base);
+    overflow: visible;
+    /* Ensure icon isn't clipped */
+}
+
+.service-icon i {
+    line-height: 1;
+    /* Fix for icon clipping */
 }
 
 .service-card:hover .service-icon {
@@ -1132,15 +1121,18 @@ section {
 }
 
 /* Contact Section */
+/* Contact Section Alignment */
 .contact-section {
-    background: var(--soft-gray);
+    padding: var(--spacing-xl) 0;
+    background: var(--white);
 }
 
 .contact-content {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1.5fr;
     gap: 4rem;
-    margin: 3rem 0;
+    align-items: start;
+    /* Align top */
 }
 
 .contact-info {
