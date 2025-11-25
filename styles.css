@@ -668,6 +668,8 @@ section {
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     gap: 2.5rem;
     margin-top: 4rem;
+    padding-bottom: 2rem;
+    /* Prevent cards from being cut off */
 }
 
 .service-card {
@@ -890,6 +892,7 @@ section {
 /* Admin Section */
 .admin-section {
     background: var(--accent-beige);
+    padding: var(--spacing-xl) 0;
 }
 
 .admin-hero-image {
@@ -1009,9 +1012,10 @@ section {
 
 /* Innovation Section */
 .innovation-section {
-    background: var(--dark-gray);
+    background: linear-gradient(135deg, #0F1F3A 0%, #1E3A5F 50%, #2C5282 100%);
     color: white;
     position: relative;
+    padding: var(--spacing-xl) 0;
 }
 
 .innovation-section::before {
@@ -1021,7 +1025,9 @@ section {
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(135deg, rgba(201, 169, 97, 0.1) 0%, rgba(107, 68, 35, 0.1) 100%);
+    background:
+        radial-gradient(circle at 20% 50%, rgba(212, 175, 55, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(139, 90, 60, 0.08) 0%, transparent 50%);
     z-index: 1;
 }
 
@@ -1032,21 +1038,22 @@ section {
 
 .innovation-content {
     display: grid;
-    grid-template-columns: 2fr 1fr;
+    grid-template-columns: 1fr 1fr;
     gap: 4rem;
     align-items: center;
 }
 
 .innovation-card {
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.08);
     backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 30px;
-    padding: 3rem;
-    text-align: center;
-    box-shadow: var(--shadow-heavy);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: var(--radius-xl);
+    padding: 2.5rem;
+    text-align: left;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
     position: relative;
     overflow: hidden;
+    transition: all var(--transition-slow);
 }
 
 .innovation-role {
@@ -1056,12 +1063,38 @@ section {
     margin-bottom: 1rem;
 }
 
+.innovation-image {
+    position: relative;
+    height: 450px;
+}
+
 .innovation-image img {
     width: 100%;
-    height: 300px;
+    height: 100%;
     object-fit: cover;
-    border-radius: 20px;
-    box-shadow: var(--shadow-heavy);
+    border-radius: var(--radius-xl);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    position: relative;
+    z-index: 2;
+    transition: transform var(--transition-slow);
+}
+
+.innovation-image::before {
+    content: '';
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    right: -20px;
+    bottom: -20px;
+    background: var(--gradient-primary);
+    border-radius: var(--radius-xl);
+    z-index: 1;
+    opacity: 0.25;
+    filter: blur(25px);
+}
+
+.innovation-image:hover img {
+    transform: scale(1.03) translateY(-5px);
 }
 
 .innovation-card::before {
@@ -1092,32 +1125,49 @@ section {
 
 .innovation-content h3 {
     color: var(--secondary-gold);
-    font-size: 1.5rem;
-    margin-bottom: 1.5rem;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, var(--secondary-gold) 0%, #FFD700 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 .innovation-contacts {
-    display: flex;
-    justify-content: center;
-    gap: 2rem;
-    margin-top: 2rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 1rem;
+    margin-top: 2.5rem;
 }
 
 .innovation-contact {
     display: flex;
     align-items: center;
-    gap: 8px;
+    justify-content: center;
+    gap: 0.6rem;
     color: white;
     text-decoration: none;
-    padding: 10px 20px;
+    padding: 0.9rem 1.2rem;
     background: rgba(255, 255, 255, 0.1);
-    border-radius: 25px;
-    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    border-radius: var(--radius-full);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    transition: all var(--transition-base);
+    font-size: 0.9rem;
+    font-weight: 500;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 .innovation-contact:hover {
     background: rgba(255, 255, 255, 0.2);
     transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    border-color: var(--secondary-gold);
+}
+
+.innovation-contact i {
+    font-size: 1.1rem;
+    color: var(--secondary-gold);
 }
 
 /* Contact Section - Reorganized */
@@ -1127,9 +1177,9 @@ section {
 }
 
 .contact-content {
-    display: flex;
-    flex-direction: column;
-    gap: 4rem;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
 }
 
 .contact-info {
@@ -1193,13 +1243,16 @@ section {
 
 .contact-image {
     position: relative;
+    order: 3;
+    /* Move image before map */
+    margin-bottom: 2rem;
 }
 
 .contact-image img {
     width: 100%;
     height: 300px;
     object-fit: cover;
-    border-radius: 20px;
+    border-radius: var(--radius-lg);
     box-shadow: var(--shadow-medium);
 }
 
@@ -1251,9 +1304,14 @@ section {
     box-shadow: var(--shadow-heavy);
 }
 
+.map-section {
+    padding: 0 0 var(--spacing-xl) 0;
+    background: var(--white);
+}
+
 .map-container {
-    margin-top: 3rem;
-    border-radius: 20px;
+    margin-top: 0;
+    border-radius: var(--radius-lg);
     overflow: hidden;
     box-shadow: var(--shadow-medium);
 }
@@ -1440,10 +1498,31 @@ section {
     .about-content,
     .judicial-content,
     .experience-content,
-    .innovation-content,
+    .innovation-content {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
     .contact-content {
         grid-template-columns: 1fr;
         gap: 2rem;
+    }
+
+    .contact-info {
+        order: 1;
+        gap: 1.5rem;
+        margin-bottom: 0;
+    }
+
+    .contact-form {
+        order: 2;
+        padding: 2rem 1.5rem;
+        margin-bottom: 0;
+    }
+
+    .contact-image {
+        order: 3;
+        margin-bottom: 2rem;
     }
 
     .footer-content {
@@ -1457,9 +1536,25 @@ section {
         text-align: center;
     }
 
-    .services-grid,
+    .services-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        padding-bottom: 3rem;
+        margin-bottom: 0;
+    }
+
     .admin-grid {
         grid-template-columns: 1fr;
+    }
+
+    .admin-section .services-grid {
+        margin-top: 2rem;
+        /* Reduce space after title */
+    }
+
+    .services-section .services-grid {
+        margin-top: 2rem;
+        /* Reduce space after title */
     }
 
     .hero-highlights {
@@ -1485,6 +1580,29 @@ section {
 
     .innovation-card {
         padding: 2rem 1.5rem;
+        text-align: center;
+    }
+
+    .innovation-content {
+        gap: 3rem;
+    }
+
+    .innovation-image {
+        height: 350px;
+    }
+
+    .innovation-contacts {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.8rem;
+    }
+
+    .innovation-contact {
+        padding: 0.8rem 1rem;
+        font-size: 0.85rem;
+    }
+
+    .innovation-contact i {
+        font-size: 1rem;
     }
 }
 
