@@ -52,12 +52,11 @@ export default async function handler(req, res) {
         }
 
         const model = genAI.getGenerativeModel({
-            model: "gemini-pro",
+            model: "gemini-1.5-flash",
             systemInstruction: SYSTEM_PROMPT_LUANNA,
         });
 
-        // Convert frontend history format to Gemini format if needed
-        // Gemini expects: { role: "user" | "model", parts: [{ text: "..." }] }
+        // Convert frontend history format to Gemini format
         const chatHistory = (history || []).map(msg => ({
             role: msg.role === 'user' ? 'user' : 'model',
             parts: [{ text: msg.content }]

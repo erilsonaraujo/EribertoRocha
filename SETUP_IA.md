@@ -9,7 +9,7 @@ Para a IA funcionar no Vercel, você **DEVE** adicionar a variável de ambiente:
 1. Acesse: https://vercel.com/seu-projeto/settings/environment-variables
 2. Adicione uma nova variável:
    - **Name**: `GEMINI_API_KEY`
-   - **Value**: `AIzaSyCzDud26x2ZA0sqPQVHYSOKEwDjpkWmSoA`
+   - **Value**: `Sua chave de API aqui` (Pegue em https://aistudio.google.com/app/apikey)
    - **Environment**: Production, Preview, Development (marque todos)
 3. Clique em "Save"
 4. **Redeploy** o projeto para aplicar as mudanças
