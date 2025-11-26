@@ -90,9 +90,20 @@ class LuannaChat {
             }
 
         } catch (error) {
-            console.error('Erro:', error);
+            console.error('Erro completo:', error);
+            console.error('Tipo de erro:', error.name);
+            console.error('Mensagem:', error.message);
+
             this.removeTypingIndicator();
-            this.addMessage("Desculpe, estou com dificuldade de conexão no momento. Por favor, tente novamente ou fale diretamente no WhatsApp.", 'bot');
+
+            let errorMessage = "Desculpe, estou com dificuldade de conexão no momento.";
+
+            if (error.message.includes('Failed to fetch')) {
+                errorMessage = "Não consegui conectar ao servidor. Verifique se o backend está rodando (npm run server).";
+                console.error('DICA: Execute "npm run server" em outro terminal');
+            }
+
+            this.addMessage(errorMessage + " Por favor, tente novamente ou fale diretamente no WhatsApp.", 'bot');
             this.showActionButtons();
             this.isTyping = false;
         }

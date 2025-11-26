@@ -432,6 +432,16 @@ h3 {
     display: flex;
     gap: 1rem;
     flex-wrap: wrap;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.hero-highlights {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    align-items: center;
 }
 
 @keyframes fadeInUp {
