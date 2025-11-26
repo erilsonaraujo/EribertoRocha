@@ -423,6 +423,17 @@ h3 {
     transform: scale(1.2) rotate(5deg);
 }
 
+.cta-button-secondary {
+    background: linear-gradient(135deg, var(--accent-blue), var(--accent-blue-light));
+    margin-left: 1rem;
+}
+
+.hero-cta {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
 @keyframes fadeInUp {
     from {
         opacity: 0;
