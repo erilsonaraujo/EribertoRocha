@@ -1,53 +1,9 @@
 /**
  * Luanna - Assistente Jurídica Virtual
- * Lógica do Chat e Integrações
+ * Lógica do Chat e Integrações (Backend Real)
  */
 
-const LUANNA_SYSTEM_PROMPT = `
-Você é Luanna, assistente jurídica oficial do advogado Dr. Eriberto Rocha, especialista em Direito Civil Condominial.
-Seu papel é:
-Responder dúvidas jurídicas com base nas leis, doutrina e jurisprudências atualizadas.
-Atuar como closer de vendas, guiando o cliente para contratar a assessoria jurídica.
-Priorizar atendimento para síndicos e condomínios.
-`;
-
 const INITIAL_MESSAGE = "Olá! Sou Luanna, assistente jurídica do Dr. Eriberto Rocha. Como posso ajudar com seu condomínio ou questão jurídica hoje?";
-
-// Base de conhecimento simulada (Keywords -> Resposta)
-const KNOWLEDGE_BASE = [
-    {
-        keywords: ['valor', 'preço', 'quanto custa', 'honorários', 'orçamento'],
-        response: "Para passar um orçamento preciso, o Dr. Eriberto precisa analisar a complexidade do seu caso. Podemos agendar uma breve reunião ou você pode me dar mais detalhes por aqui?",
-        action: 'offer_contact'
-    },
-    {
-        keywords: ['inadimplência', 'cobrança', 'devedor', 'atrasado', 'pagamento'],
-        response: "A inadimplência é um problema sério que afeta o caixa do condomínio. O Dr. Eriberto é especialista em recuperação de crédito, atuando tanto na cobrança extrajudicial quanto judicial, sempre buscando a forma mais rápida de reaver os valores.",
-        action: 'offer_contact'
-    },
-    {
-        keywords: ['barulho', 'som alto', 'perturbação', 'vizinho'],
-        response: "Perturbação do sossego é uma das maiores causas de conflitos. O condomínio deve seguir o Regimento Interno e aplicar advertências ou multas se necessário. O Dr. Eriberto pode orientar sobre a aplicação correta dessas penalidades para evitar anulações judiciais.",
-        action: 'offer_contact'
-    },
-    {
-        keywords: ['síndico', 'administradora', 'gestão'],
-        response: "Para síndicos e administradoras, oferecemos uma assessoria preventiva completa, que vai desde a análise de contratos até o acompanhamento de assembleias. Isso traz segurança jurídica para sua gestão.",
-        action: 'offer_contact'
-    },
-    {
-        keywords: ['agendar', 'reunião', 'marcar', 'horário'],
-        response: "Ótimo! Você pode agendar uma reunião diretamente pelo nosso calendário online ou falar com o Dr. Eriberto pelo WhatsApp.",
-        action: 'show_buttons'
-    },
-    {
-        keywords: ['whatsapp', 'zap', 'contato', 'telefone'],
-        response: "Claro! Você pode falar diretamente com o Dr. Eriberto pelo WhatsApp abaixo.",
-        action: 'show_buttons'
-    }
-];
-
-const DEFAULT_RESPONSE = "Entendo. Essa é uma questão que requer uma análise jurídica cuidadosa. Como assistente, recomendo que você converse diretamente com o Dr. Eriberto para ter uma orientação segura e personalizada.";
 
 class LuannaChat {
     constructor() {
@@ -55,8 +11,9 @@ class LuannaChat {
         this.messagesContainer = null;
         this.inputField = null;
         this.sendButton = null;
-        this.isOpen = false; // Chat inline is always open, but we might want a toggle later
+        this.isOpen = false;
         this.messageHistory = [];
+        this.isTyping = false;
     }
 
     init() {
@@ -75,7 +32,9 @@ class LuannaChat {
         });
     }
 
-    handleUserMessage() {
+    async handleUserMessage() {
+        if (this.isTyping) return;
+
         const text = this.inputField.value.trim();
         if (!text) return;
 
@@ -84,29 +43,58 @@ class LuannaChat {
         this.inputField.value = '';
         this.messageHistory.push({ role: 'user', content: text });
 
-        // Simulate typing delay
+        // Show typing indicator
         this.showTypingIndicator();
+        this.isTyping = true;
 
-        setTimeout(() => {
+        try {
+            const response = await fetch('/api/chat', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    message: text,
+                    history: this.messageHistory.slice(0, -1) // Send history excluding current message (or include it if backend expects)
+                    // Actually, let's send the full history excluding the just added message if the backend adds it, 
+                    // but usually we send history so far. 
+                    // My backend implementation converts history. Let's send the history BEFORE this new message, 
+                    // and the new message as 'message'.
+                }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Erro na comunicação com a IA');
+            }
+
+            const data = await response.json();
+            const botResponse = data.response;
+
             this.removeTypingIndicator();
-            this.generateResponse(text);
-        }, 1500);
-    }
+            this.addMessage(botResponse, 'bot');
+            this.messageHistory.push({ role: 'assistant', content: botResponse });
+            this.isTyping = false;
 
-    generateResponse(userText) {
-        const lowerText = userText.toLowerCase();
-        let match = KNOWLEDGE_BASE.find(item =>
-            item.keywords.some(keyword => lowerText.includes(keyword))
-        );
+            // Check for conversion keywords in the response or just always show buttons if appropriate
+            // The prompt instructs the AI to "Apresentar botões". 
+            // We can detect if the AI *says* something about buttons, or just rely on the text.
+            // However, to be safe and ensure buttons appear when needed, let's check for keywords in the AI response
+            // OR if the user's message had intent.
+            // Actually, the prompt says "Apresentar botões...". The AI might output text like "[BOTÕES]".
+            // But since we want to render HTML buttons, we can look for a flag or just heuristic.
+            // Let's use a heuristic: if the response mentions "WhatsApp" or "agendar" or "link", show buttons.
 
-        const responseText = match ? match.response : DEFAULT_RESPONSE;
-        const action = match ? match.action : 'offer_contact';
+            const lowerResponse = botResponse.toLowerCase();
+            if (lowerResponse.includes('whatsapp') || lowerResponse.includes('agendar') || lowerResponse.includes('calendly') || lowerResponse.includes('link')) {
+                this.showActionButtons();
+            }
 
-        this.addMessage(responseText, 'bot');
-        this.messageHistory.push({ role: 'assistant', content: responseText });
-
-        if (action === 'offer_contact' || action === 'show_buttons') {
+        } catch (error) {
+            console.error('Erro:', error);
+            this.removeTypingIndicator();
+            this.addMessage("Desculpe, estou com dificuldade de conexão no momento. Por favor, tente novamente ou fale diretamente no WhatsApp.", 'bot');
             this.showActionButtons();
+            this.isTyping = false;
         }
     }
 
@@ -116,12 +104,15 @@ class LuannaChat {
 
         const contentDiv = document.createElement('div');
         contentDiv.className = 'message-content';
-        contentDiv.textContent = text;
+
+        // Simple markdown parsing for bold text
+        const formattedText = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+        contentDiv.innerHTML = formattedText;
 
         if (sender === 'bot') {
             const avatar = document.createElement('div');
             avatar.className = 'chat-avatar';
-            avatar.innerHTML = '<i class="fas fa-user-tie"></i>'; // Placeholder icon
+            avatar.innerHTML = '<i class="fas fa-user-tie"></i>';
             messageDiv.appendChild(avatar);
         }
 
@@ -152,6 +143,12 @@ class LuannaChat {
     }
 
     showActionButtons() {
+        // Avoid duplicate buttons at the very bottom
+        const lastElement = this.messagesContainer.lastElementChild;
+        if (lastElement && lastElement.classList.contains('chat-actions')) {
+            return;
+        }
+
         const buttonsDiv = document.createElement('div');
         buttonsDiv.className = 'chat-actions';
 
@@ -159,7 +156,7 @@ class LuannaChat {
         const summary = this.messageHistory
             .map(m => `${m.role === 'user' ? 'Cliente' : 'Luanna'}: ${m.content}`)
             .join('\n')
-            .substring(0, 500); // Limit length
+            .substring(0, 800);
 
         const whatsappText = encodeURIComponent(
             `Olá, Dr. Eriberto! Vim do site através da assistente Luanna.\n\n*Resumo da conversa:*\n${summary}\n\nGostaria de orientações.`
@@ -167,10 +164,10 @@ class LuannaChat {
 
         buttonsDiv.innerHTML = `
             <a href="https://wa.me/5584991776106?text=${whatsappText}" target="_blank" class="chat-btn whatsapp-btn">
-                <i class="fab fa-whatsapp"></i> Falar no WhatsApp
+                <i class="fab fa-whatsapp"></i> Falar com Dr. Eriberto no WhatsApp
             </a>
             <a href="#agendamento" class="chat-btn schedule-btn">
-                <i class="far fa-calendar-alt"></i> Agendar Reunião
+                <i class="far fa-calendar-alt"></i> Agendar uma reunião de 30 minutos
             </a>
         `;
 
