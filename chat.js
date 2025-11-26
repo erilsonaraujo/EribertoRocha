@@ -47,7 +47,11 @@ class LuannaChat {
         this.showTypingIndicator();
         this.isTyping = true;
 
+
         try {
+            console.log('🚀 Enviando mensagem para API:', text);
+            console.log('📍 URL da API:', window.location.origin + '/api/chat');
+
             const response = await fetch('/api/chat', {
                 method: 'POST',
                 headers: {
@@ -55,16 +59,20 @@ class LuannaChat {
                 },
                 body: JSON.stringify({
                     message: text,
-                    history: this.messageHistory.slice(0, -1) // Send history excluding current message (or include it if backend expects)
-                    // Actually, let's send the full history excluding the just added message if the backend adds it, 
-                    // but usually we send history so far. 
-                    // My backend implementation converts history. Let's send the history BEFORE this new message, 
-                    // and the new message as 'message'.
+                    history: this.messageHistory.slice(0, -1)
                 }),
             });
 
+            console.log('📡 Resposta recebida:', {
+                status: response.status,
+                statusText: response.statusText,
+                ok: response.ok
+            });
+
             if (!response.ok) {
-                throw new Error('Erro na comunicação com a IA');
+                const errorText = await response.text();
+                console.error('❌ Erro da API:', errorText);
+                throw new Error('Erro na comunicação com a IA: ' + response.status);
             }
 
             const data = await response.json();
