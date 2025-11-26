@@ -1961,6 +1961,38 @@ img:not([src]) {
 
 /* Chat Footer */
 .chat-footer {
+    padding: 0.75rem;
+    text-align: center;
+    font-size: 0.75rem;
+    color: rgba(0, 0, 0, 0.6);
+    background: #f5f7fa;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.chat-footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.chat-footer-links a {
+    display: inline-block;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.chat-footer-links a:hover {
+    transform: translateY(-2px);
+    opacity: 0.8;
+}
+
+.chat-footer-links img {
+    height: 24px;
+    border-radius: 4px;
+}
+
+/* Chat Footer */
+.chat-footer {
     padding: 0.5rem;
     text-align: center;
     font-size: 0.75rem;
