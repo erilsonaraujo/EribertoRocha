@@ -423,9 +423,13 @@ h3 {
     transform: scale(1.2) rotate(5deg);
 }
 
-.cta-button-secondary {
-    background: linear-gradient(135deg, var(--accent-blue), var(--accent-blue-light));
+.cta-button-whatsapp {
+    background: linear-gradient(135deg, #25D366, #128C7E);
     margin-left: 1rem;
+}
+
+.cta-button-whatsapp:hover {
+    background: linear-gradient(135deg, #128C7E, #075E54);
 }
 
 .hero-cta {
