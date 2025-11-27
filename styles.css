@@ -1285,17 +1285,14 @@ section {
     background: var(--white);
 }
 
-.contact-content {
-    display: flex;
-    flex-direction: column;
-    gap: 3rem;
-}
+
 
 .contact-info {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 2rem;
-    order: 1;
+    margin-top: 2rem;
+    margin-bottom: 3rem;
 }
 
 .contact-item {
@@ -1350,7 +1347,6 @@ section {
     box-shadow: var(--shadow-medium);
     border: 1px solid rgba(139, 90, 60, 0.1);
     margin-bottom: 3rem;
-    order: 2;
 }
 
 
