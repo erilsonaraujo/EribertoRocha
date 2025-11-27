@@ -136,7 +136,7 @@ class LuannaChat {
         if (sender === 'bot') {
             const avatar = document.createElement('div');
             avatar.className = 'chat-avatar';
-            avatar.innerHTML = '<i class="fas fa-user-tie"></i>';
+            avatar.innerHTML = '<img src="https://images.pexels.com/photos/7693899/pexels-photo-7693899.jpeg?auto=compress&cs=tinysrgb&w=150" alt="Luanna">';
             messageDiv.appendChild(avatar);
         }
 
