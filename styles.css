@@ -1312,7 +1312,6 @@ section {
     background: white;
     box-shadow: var(--shadow-medium);
     border-color: var(--secondary-gold);
-    transform: translateY(-5px);
 }
 
 .contact-item i {
