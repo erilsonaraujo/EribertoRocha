@@ -43,7 +43,7 @@ app.post('/api/chat', async (req, res) => {
         }
 
         const model = genAI.getGenerativeModel({
-            model: "gemini-pro",
+            model: "gemini-2.5-flash",
             systemInstruction: SYSTEM_PROMPT_LUANNA,
         });
 

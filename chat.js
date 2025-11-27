@@ -49,10 +49,14 @@ class LuannaChat {
 
 
         try {
-            console.log('🚀 Enviando mensagem para API:', text);
-            console.log('📍 URL da API:', window.location.origin + '/api/chat');
+            const apiUrl = window.location.hostname === 'localhost'
+                ? 'http://localhost:3000/api/chat'
+                : '/api/chat';
 
-            const response = await fetch('/api/chat', {
+            console.log('🚀 Enviando mensagem para API:', text);
+            console.log('📍 URL da API:', apiUrl);
+
+            const response = await fetch(apiUrl, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
