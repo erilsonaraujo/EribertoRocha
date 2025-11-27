@@ -119,7 +119,29 @@ export default async function handler(req, res) {
             history: chatHistory,
         });
 
-        const result = await chat.sendMessage(message);
+        // Retry logic for 503 Service Unavailable
+        let result;
+        let retryCount = 0;
+        const maxRetries = 3;
+
+        while (retryCount <= maxRetries) {
+            try {
+                result = await chat.sendMessage(message);
+                break; // Success, exit loop
+            } catch (error) {
+                if (error.message.includes('503') || error.message.includes('overloaded')) {
+                    retryCount++;
+                    if (retryCount > maxRetries) throw error;
+
+                    console.log(`Model overloaded, retrying... (${retryCount}/${maxRetries})`);
+                    // Wait with exponential backoff: 1s, 2s, 4s
+                    await new Promise(resolve => setTimeout(resolve, 1000 * Math.pow(2, retryCount - 1)));
+                } else {
+                    throw error; // Not a 503, throw immediately
+                }
+            }
+        }
+
         const responseText = result.response.text();
 
         res.status(200).json({
