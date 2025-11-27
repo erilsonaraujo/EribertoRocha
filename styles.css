@@ -1766,17 +1766,20 @@ img:not([src]) {
     display: flex;
     flex-direction: column;
     background-color: #f5f7fa;
+    min-height: 0;
+    overflow: hidden;
 }
 
 .chat-messages {
     flex: 1;
     padding: 2rem;
-    padding-bottom: 8rem;
+    padding-bottom: 1.5rem;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
     scroll-behavior: smooth;
+    min-height: 0;
 }
 
 /* Message Bubbles */
@@ -1889,6 +1892,7 @@ img:not([src]) {
     display: flex;
     gap: 1rem;
     align-items: center;
+    flex-shrink: 0;
 }
 
 #chat-input {
