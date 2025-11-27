@@ -860,9 +860,11 @@ section {
 
 /* Judicial Section */
 .judicial-section {
-    background: linear-gradient(135deg, var(--dark-brown) 0%, var(--primary-brown) 100%);
-    color: white;
+    background: #fdfbf7;
+    /* Light beige background */
+    color: var(--dark-gray);
     position: relative;
+    padding: 5rem 0;
 }
 
 .judicial-section::before {
@@ -872,7 +874,9 @@ section {
     left: 0;
     width: 100%;
     height: 100%;
-    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="legal" width="50" height="50" patternUnits="userSpaceOnUse"><path d="M25 10 L35 30 L15 30 Z" fill="%23C9A961" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23legal)"/></svg>');
+    background-image: radial-gradient(var(--secondary-gold) 1px, transparent 1px);
+    background-size: 40px 40px;
+    opacity: 0.1;
     z-index: 1;
 }
 
@@ -883,55 +887,98 @@ section {
 
 .judicial-content {
     display: grid;
-    grid-template-columns: 2fr 1fr;
+    grid-template-columns: 1fr 1fr;
     gap: 4rem;
     align-items: center;
 }
 
 .judicial-text h3 {
-    color: var(--secondary-gold);
-    margin-bottom: 1rem;
-    font-size: 1.8rem;
+    color: var(--primary-brown);
+    margin-bottom: 1.5rem;
+    font-size: 2rem;
+    font-weight: 700;
+    position: relative;
+    display: inline-block;
+}
+
+.judicial-text h3::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    width: 60px;
+    height: 3px;
+    background: var(--secondary-gold);
 }
 
 .judicial-text>p {
-    margin-bottom: 2rem;
+    margin-bottom: 2.5rem;
     font-size: 1.1rem;
-    opacity: 0.9;
+    line-height: 1.8;
+    color: #555;
+}
+
+.judicial-image {
+    position: relative;
+}
+
+.judicial-image::before {
+    content: '';
+    position: absolute;
+    top: -20px;
+    right: -20px;
+    width: 100%;
+    height: 100%;
+    border: 2px solid var(--secondary-gold);
+    border-radius: 20px;
+    z-index: -1;
 }
 
 .judicial-image img {
     width: 100%;
-    height: 400px;
+    height: 500px;
     object-fit: cover;
     border-radius: 20px;
-    box-shadow: var(--shadow-heavy);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
 }
 
 .judicial-list {
     list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
 }
 
 .judicial-list li {
     display: flex;
     align-items: center;
     gap: 1rem;
-    margin-bottom: 1.5rem;
-    padding: 1rem;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    border-radius: 15px;
-    transition: transform 0.3s ease;
+    padding: 1.2rem;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .judicial-list li:hover {
-    transform: translateX(10px);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    border-color: var(--secondary-gold);
 }
 
 .judicial-list i {
     color: var(--secondary-gold);
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     min-width: 24px;
+    background: rgba(201, 169, 97, 0.1);
+    padding: 10px;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 /* Admin Section */
