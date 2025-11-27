@@ -1293,6 +1293,8 @@ section {
     gap: 2rem;
     margin-top: 2rem;
     margin-bottom: 3rem;
+    position: relative;
+    z-index: 2;
 }
 
 .contact-item {
@@ -1346,6 +1348,8 @@ section {
     box-shadow: var(--shadow-medium);
     border: 1px solid rgba(139, 90, 60, 0.1);
     margin-bottom: 3rem;
+    position: relative;
+    z-index: 1;
 }
 
 
