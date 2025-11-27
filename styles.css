@@ -1771,6 +1771,7 @@ img:not([src]) {
 .chat-messages {
     flex: 1;
     padding: 2rem;
+    padding-bottom: 1rem;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
