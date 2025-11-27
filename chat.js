@@ -129,9 +129,7 @@ class LuannaChat {
         const contentDiv = document.createElement('div');
         contentDiv.className = 'message-content';
 
-        // Simple markdown parsing for bold text
-        const formattedText = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-        contentDiv.innerHTML = formattedText;
+        contentDiv.innerHTML = this.formatMessage(text);
 
         if (sender === 'bot') {
             const avatar = document.createElement('div');
@@ -201,6 +199,27 @@ class LuannaChat {
 
     scrollToBottom() {
         this.messagesContainer.scrollTop = this.messagesContainer.scrollHeight;
+    }
+
+    formatMessage(text) {
+        if (!text) return '';
+
+        // 1. Handle Bold (**text**)
+        let formatted = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+
+        // 2. Handle Bullet Points
+        // Replace newline followed by * or - with a break and bullet
+        formatted = formatted.replace(/\n[\*\-]\s/g, '<br>• ');
+
+        // Handle start of string bullet
+        if (formatted.startsWith('* ') || formatted.startsWith('- ')) {
+            formatted = '• ' + formatted.substring(2);
+        }
+
+        // 3. Handle Newlines (convert remaining newlines to <br>)
+        formatted = formatted.replace(/\n/g, '<br>');
+
+        return formatted;
     }
 }
 
