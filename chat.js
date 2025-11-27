@@ -107,11 +107,12 @@ class LuannaChat {
             let errorMessage = "Desculpe, estou com dificuldade de conexão no momento.";
 
             if (error.message.includes('Failed to fetch')) {
-                errorMessage = "Não consegui conectar ao servidor. Verifique se o backend está rodando (npm run server).";
-                console.error('DICA: Execute "npm run server" em outro terminal');
+                errorMessage = "Não consegui conectar ao servidor. Verifique sua conexão com a internet.";
+            } else if (error.message.includes('500')) {
+                errorMessage = "Ocorreu um erro interno no servidor. Por favor, tente novamente mais tarde.";
             }
 
-            this.addMessage(errorMessage + " Por favor, tente novamente ou fale diretamente no WhatsApp.", 'bot');
+            this.addMessage(errorMessage + " Se preferir, fale diretamente no WhatsApp.", 'bot');
             this.showActionButtons();
             this.isTyping = false;
         }

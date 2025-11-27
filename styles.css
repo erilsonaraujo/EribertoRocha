@@ -252,10 +252,12 @@ h3 {
 
 .hero-content {
     display: grid;
-    grid-template-columns: 1.2fr 1fr;
-    gap: 4rem;
+    grid-template-columns: 1fr 1fr;
+    /* Equal width for text and image */
+    gap: 3rem;
     align-items: center;
     margin-bottom: 2rem;
+    max-width: 100%;
 }
 
 .hero-text {
@@ -304,10 +306,11 @@ h3 {
 .hero-highlights .highlight {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
+    gap: 0.5rem;
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
-    padding: 0.8rem 1.2rem;
+    padding: 0.5rem 1rem;
+    /* Reduced padding */
     border-radius: var(--radius-full);
     border: 1px solid rgba(255, 255, 255, 0.15);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
@@ -322,26 +325,35 @@ h3 {
 
 .hero-highlights .highlight i {
     color: var(--secondary-gold);
-    font-size: 1.2rem;
+    font-size: 1rem;
+    /* Reduced icon size */
     filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
 }
 
 .hero-highlights .highlight span {
     color: white;
     font-weight: 500;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
+    /* Reduced text size */
 }
 
 .hero-image {
     position: relative;
-    height: 400px;
-    /* Reduced height */
+    height: 600px;
+    /* Fixed height for prominence */
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    /* Align image to bottom */
 }
 
 .hero-image img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    /* Prevents flattening/distortion */
+    object-position: top center;
+    /* Focus on face */
     border-radius: var(--radius-xl);
     box-shadow:
         0 20px 40px rgba(0, 0, 0, 0.3),
@@ -378,14 +390,16 @@ h3 {
 .cta-button {
     display: inline-flex;
     align-items: center;
-    gap: 0.8rem;
+    gap: 0.6rem;
     background: var(--gradient-primary);
     color: white;
     text-decoration: none;
-    padding: 1rem 2rem;
+    padding: 0.6rem 1.2rem;
+    /* Further reduced padding */
     border-radius: var(--radius-full);
     font-weight: 600;
-    font-size: 1.1rem;
+    font-size: 0.9rem;
+    /* Further reduced font size */
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: var(--shadow-medium);
     position: relative;
@@ -434,18 +448,22 @@ h3 {
 
 .hero-cta {
     display: flex;
-    gap: 1rem;
+    gap: 0.8rem;
     flex-wrap: wrap;
     align-items: center;
-    margin-top: 1rem;
+    margin-top: 1.5rem;
+    justify-content: flex-start;
+    /* Ensure left alignment */
 }
 
 .hero-highlights {
     display: flex;
-    gap: 1rem;
-    margin-bottom: 2rem;
+    gap: 0.8rem;
+    margin-bottom: 1.5rem;
     flex-wrap: wrap;
     align-items: center;
+    justify-content: flex-start;
+    /* Ensure left alignment */
 }
 
 @keyframes fadeInUp {
@@ -1518,6 +1536,13 @@ section {
 
     .hero-highlights {
         justify-content: center;
+        flex-direction: row;
+        /* Keep as row on mobile */
+    }
+
+    .hero-cta {
+        justify-content: center;
+        /* Center buttons on mobile */
     }
 
     .about-content,
@@ -1582,10 +1607,7 @@ section {
         /* Reduce space after title */
     }
 
-    .hero-highlights {
-        flex-direction: column;
-        align-items: center;
-    }
+    /* Removed duplicate .hero-highlights rule */
 }
 
 @media (max-width: 480px) {

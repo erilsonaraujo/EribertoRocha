@@ -48,7 +48,8 @@ export default async function handler(req, res) {
         const { message, history } = req.body;
 
         if (!process.env.GEMINI_API_KEY) {
-            throw new Error("GEMINI_API_KEY not configured");
+            console.error("GEMINI_API_KEY is missing");
+            return res.status(500).json({ error: "Server configuration error: API Key missing" });
         }
 
         const model = genAI.getGenerativeModel({
@@ -57,10 +58,11 @@ export default async function handler(req, res) {
         });
 
         // Convert frontend history format to Gemini format
-        const chatHistory = (history || []).map(msg => ({
+        // Ensure history is an array and filter out any invalid messages
+        const chatHistory = (Array.isArray(history) ? history : []).map(msg => ({
             role: msg.role === 'user' ? 'user' : 'model',
-            parts: [{ text: msg.content }]
-        }));
+            parts: [{ text: typeof msg.content === 'string' ? msg.content : '' }]
+        })).filter(msg => msg.parts[0].text.trim() !== '');
 
         const chat = model.startChat({
             history: chatHistory,
@@ -75,6 +77,8 @@ export default async function handler(req, res) {
 
     } catch (error) {
         console.error("Erro IA:", error);
-        res.status(500).json({ error: "Erro no servidor da IA: " + error.message });
+        // Return a more specific error message if possible, but safe for client
+        const errorMessage = error.message || "Erro desconhecido na IA";
+        res.status(500).json({ error: "Erro no servidor da IA: " + errorMessage });
     }
 }
