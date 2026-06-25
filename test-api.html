@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste da API Luanna</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+
+        .test-box {
+            border: 2px solid #ddd;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 5px;
+            white-space: pre-wrap;
+        }
+
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .success {
+            background: #d4edda;
+            color: #155724;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>🧪 Teste da API Luanna</h1>
+
+    <div class="test-box">
+        <h2>Teste 1: Verificar Endpoint</h2>
+        <button onclick="testEndpoint()">Testar /api/chat</button>
+        <div id="result1" class="result" style="display:none;"></div>
+    </div>
+
+    <div class="test-box">
+        <h2>Teste 2: Enviar Mensagem</h2>
+        <button onclick="testMessage()">Enviar "Olá"</button>
+        <div id="result2" class="result" style="display:none;"></div>
+    </div>
+
+    <script>
+        async function testEndpoint() {
+            const resultDiv = document.getElementById('result1');
+            resultDiv.style.display = 'block';
+            resultDiv.textContent = 'Testando...';
+            resultDiv.className = 'result';
+
+            try {
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        message: 'teste',
+                        history: []
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    resultDiv.className = 'result success';
+                    resultDiv.textContent = '✅ API funcionando!\n\nResposta: ' + JSON.stringify(data, null, 2);
+                } else {
+                    resultDiv.className = 'result error';
+                    resultDiv.textContent = '❌ Erro na API\n\nStatus: ' + response.status + '\nErro: ' + JSON.stringify(data, null, 2);
+                }
+            } catch (error) {
+                resultDiv.className = 'result error';
+                resultDiv.textContent = '❌ Erro de conexão\n\n' + error.message + '\n\nVerifique se o backend está rodando (npm run server)';
+            }
+        }
+
+        async function testMessage() {
+            const resultDiv = document.getElementById('result2');
+            resultDiv.style.display = 'block';
+            resultDiv.textContent = 'Enviando mensagem...';
+            resultDiv.className = 'result';
+
+            try {
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        message: 'Olá, como você pode me ajudar?',
+                        history: []
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    resultDiv.className = 'result success';
+                    resultDiv.textContent = '✅ Resposta da Luanna:\n\n' + data.response;
+                } else {
+                    resultDiv.className = 'result error';
+                    resultDiv.textContent = '❌ Erro\n\n' + JSON.stringify(data, null, 2);
+                }
+            } catch (error) {
+                resultDiv.className = 'result error';
+                resultDiv.textContent = '❌ Erro: ' + error.message;
+            }
+        }
+    </script>
+</body>
+
+</html>
