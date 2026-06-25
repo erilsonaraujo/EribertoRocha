@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', function () {
             `*Mensagem:*%0A${message}%0A%0A` +
             `Enviado através do site.`;
 
-        const whatsappURL = `https://wa.me/5584991776106?text=${whatsappMessage}`;
+        const whatsappURL = `https://wa.me/5584991502101?text=${whatsappMessage}`;
 
         // Open WhatsApp
         window.open(whatsappURL, '_blank');

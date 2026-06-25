@@ -81,7 +81,7 @@ git push -u origin main
 ## 📝 Informações de Contato
 
 - **WhatsApp**: +55 84 99165-1655
-- **Email**: eribertorochajr@gmail.com
+- **Email**: erilson.araujo@gmail.com
 - **Instagram**: [@eacondominio](https://www.instagram.com/eacondominio/)
 - **Endereço**: Rua Doutor Lauro Pinto, 520 - Lagoa Nova, Natal/RN
 
